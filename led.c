@@ -115,14 +115,25 @@ static int __init led_init(void)
 	writel(val, GPIO1_DR);
 
     /* 6、注册字符设备驱动 */
-    retvalue = register_chrdev(LED_MAJOR, LED_NAME, &led_fops);
+    // retvalue = register_chrdev(LED_MAJOR, LED_NAME, &led_fops);
+    if (newchrled.major) {
+		newchrled.devid = MKDEV(newchrled.major, 0);
+		retvalue = register_chrdev_region(newchrled.devid, 1, LED_NAME);
+	} else {
+		retvalue = alloc_chrdev_region(&newchrled.devid, 0, 1, LED_NAME);
+		newchrled.major = MAJOR(newchrled.devid);
+        newchrled.minor = MINOR(newchrled.devid);
+	}
+    
     if (retvalue < 0)
     {
         /* 字符设备注册失败 */
         printk(KERN_ERR "chrdevbase: can't register device %s\n", LED_NAME);
         return retvalue;
     }
-
+    newchrled.cdev.owner = THIS_MODULE;
+    cdev_init(&newchrled.cdev, &led_fops); // 初始化字符设备结构体变量
+    cdev_add(&newchrled.cdev, newchrled.devid, 1); // 添加字符设备
     return 0;
 }
 
@@ -141,7 +152,11 @@ static void __exit led_exit(void)
     iounmap(GPIO1_DR);
     iounmap(GPIO1_GDIR);
     /* 注销字符设备驱动 */
-    unregister_chrdev(LED_MAJOR, LED_NAME);
+    // unregister_chrdev(LED_MAJOR, LED_NAME);
+    cdev_del(&newchrled.cdev); // 删除字符设备
+    unregister_chrdev_region(newchrled.devid, 1); // 注销字符设备
+    
+
 }
 
 /*

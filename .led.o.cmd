@@ -509,6 +509,7 @@ deps_/home/yang/linux/IMX6ULL/Linux_Driver/2_lad/led.o := \
   include/asm-generic/io.h \
     $(wildcard include/config/generic/iomap.h) \
   include/linux/vmalloc.h \
+  include/linux/cdev.h \
 
 /home/yang/linux/IMX6ULL/Linux_Driver/2_lad/led.o: $(deps_/home/yang/linux/IMX6ULL/Linux_Driver/2_lad/led.o)
 
