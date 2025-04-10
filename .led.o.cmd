@@ -3,24 +3,11 @@ cmd_/home/yang/linux/IMX6ULL/Linux_Driver/2_lad/led.o := arm-linux-gnueabihf-gcc
 source_/home/yang/linux/IMX6ULL/Linux_Driver/2_lad/led.o := /home/yang/linux/IMX6ULL/Linux_Driver/2_lad/led.c
 
 deps_/home/yang/linux/IMX6ULL/Linux_Driver/2_lad/led.o := \
-  include/linux/module.h \
-    $(wildcard include/config/sysfs.h) \
-    $(wildcard include/config/modules.h) \
-    $(wildcard include/config/unused/symbols.h) \
-    $(wildcard include/config/module/sig.h) \
-    $(wildcard include/config/generic/bug.h) \
-    $(wildcard include/config/kallsyms.h) \
-    $(wildcard include/config/smp.h) \
-    $(wildcard include/config/tracepoints.h) \
-    $(wildcard include/config/tracing.h) \
-    $(wildcard include/config/event/tracing.h) \
-    $(wildcard include/config/ftrace/mcount/record.h) \
-    $(wildcard include/config/livepatch.h) \
-    $(wildcard include/config/module/unload.h) \
-    $(wildcard include/config/constructors.h) \
-    $(wildcard include/config/debug/set/module/ronx.h) \
-  include/linux/list.h \
-    $(wildcard include/config/debug/list.h) \
+  /home/yang/linux/IMX6ULL/Linux_Driver/2_lad/led.h \
+  include/linux/io.h \
+    $(wildcard include/config/mmu.h) \
+    $(wildcard include/config/have/arch/huge/vmap.h) \
+    $(wildcard include/config/has/ioport/map.h) \
   include/linux/types.h \
     $(wildcard include/config/uid16.h) \
     $(wildcard include/config/lbdaf.h) \
@@ -51,23 +38,81 @@ deps_/home/yang/linux/IMX6ULL/Linux_Driver/2_lad/led.o := \
     $(wildcard include/config/arch/use/builtin/bswap.h) \
   arch/arm/include/uapi/asm/posix_types.h \
   include/uapi/asm-generic/posix_types.h \
-  include/linux/poison.h \
-    $(wildcard include/config/illegal/pointer/value.h) \
+  arch/arm/include/asm/io.h \
+    $(wildcard include/config/arm/dma/mem/bufferable.h) \
+    $(wildcard include/config/pci.h) \
+    $(wildcard include/config/need/mach/io/h.h) \
+    $(wildcard include/config/pcmcia/soc/common.h) \
+    $(wildcard include/config/isa.h) \
+    $(wildcard include/config/pccard.h) \
+  include/linux/blk_types.h \
+    $(wildcard include/config/block.h) \
+    $(wildcard include/config/blk/cgroup.h) \
+    $(wildcard include/config/blk/dev/integrity.h) \
+  arch/arm/include/uapi/asm/byteorder.h \
+  include/linux/byteorder/little_endian.h \
+  include/uapi/linux/byteorder/little_endian.h \
+  include/linux/swab.h \
+  include/uapi/linux/swab.h \
+  arch/arm/include/asm/swab.h \
+  arch/arm/include/uapi/asm/swab.h \
+  include/linux/byteorder/generic.h \
+  arch/arm/include/asm/memory.h \
+    $(wildcard include/config/need/mach/memory/h.h) \
+    $(wildcard include/config/page/offset.h) \
+    $(wildcard include/config/thumb2/kernel.h) \
+    $(wildcard include/config/highmem.h) \
+    $(wildcard include/config/dram/base.h) \
+    $(wildcard include/config/dram/size.h) \
+    $(wildcard include/config/have/tcm.h) \
+    $(wildcard include/config/arm/lpae.h) \
+    $(wildcard include/config/arm/patch/phys/virt.h) \
+    $(wildcard include/config/phys/offset.h) \
+    $(wildcard include/config/virt/to/bus.h) \
   include/uapi/linux/const.h \
-  include/linux/kernel.h \
-    $(wildcard include/config/preempt/voluntary.h) \
-    $(wildcard include/config/debug/atomic/sleep.h) \
-    $(wildcard include/config/mmu.h) \
-    $(wildcard include/config/prove/locking.h) \
-    $(wildcard include/config/panic/timeout.h) \
-    $(wildcard include/config/ring/buffer.h) \
-  /usr/local/arm/gcc-linaro-4.9.4-2017.01-x86_64_arm-linux-gnueabihf/lib/gcc/arm-linux-gnueabihf/4.9.4/include/stdarg.h \
-  include/linux/linkage.h \
-  include/linux/stringify.h \
-  include/linux/export.h \
-    $(wildcard include/config/have/underscore/symbol/prefix.h) \
-    $(wildcard include/config/modversions.h) \
-  arch/arm/include/asm/linkage.h \
+  include/linux/sizes.h \
+  arch/arm/include/asm/cache.h \
+    $(wildcard include/config/arm/l1/cache/shift.h) \
+    $(wildcard include/config/aeabi.h) \
+  include/asm-generic/memory_model.h \
+    $(wildcard include/config/flatmem.h) \
+    $(wildcard include/config/discontigmem.h) \
+    $(wildcard include/config/sparsemem/vmemmap.h) \
+    $(wildcard include/config/sparsemem.h) \
+  include/asm-generic/pci_iomap.h \
+    $(wildcard include/config/no/generic/pci/ioport/map.h) \
+    $(wildcard include/config/generic/pci/iomap.h) \
+  include/xen/xen.h \
+    $(wildcard include/config/xen.h) \
+    $(wildcard include/config/xen/dom0.h) \
+    $(wildcard include/config/xen/pvh.h) \
+  arch/arm/include/asm/barrier.h \
+    $(wildcard include/config/cpu/32v6k.h) \
+    $(wildcard include/config/cpu/xsc3.h) \
+    $(wildcard include/config/cpu/fa526.h) \
+    $(wildcard include/config/arch/has/barriers.h) \
+    $(wildcard include/config/smp.h) \
+  arch/arm/include/asm/outercache.h \
+    $(wildcard include/config/outer/cache/sync.h) \
+    $(wildcard include/config/outer/cache.h) \
+  include/asm-generic/io.h \
+    $(wildcard include/config/generic/iomap.h) \
+  arch/arm/include/asm/page.h \
+    $(wildcard include/config/cpu/copy/v4wt.h) \
+    $(wildcard include/config/cpu/copy/v4wb.h) \
+    $(wildcard include/config/cpu/copy/feroceon.h) \
+    $(wildcard include/config/cpu/copy/fa.h) \
+    $(wildcard include/config/cpu/sa1100.h) \
+    $(wildcard include/config/cpu/xscale.h) \
+    $(wildcard include/config/cpu/copy/v6.h) \
+    $(wildcard include/config/kuser/helpers.h) \
+    $(wildcard include/config/have/arch/pfn/valid.h) \
+  arch/arm/include/asm/glue.h \
+  arch/arm/include/asm/pgtable-2level-types.h \
+  include/asm-generic/getorder.h \
+  include/linux/log2.h \
+    $(wildcard include/config/arch/has/ilog2/u32.h) \
+    $(wildcard include/config/arch/has/ilog2/u64.h) \
   include/linux/bitops.h \
   arch/arm/include/asm/bitops.h \
   include/linux/irqflags.h \
@@ -80,20 +125,10 @@ deps_/home/yang/linux/IMX6ULL/Linux_Driver/2_lad/led.o := \
     $(wildcard include/config/cpu/v7m.h) \
   arch/arm/include/asm/ptrace.h \
     $(wildcard include/config/arm/thumb.h) \
-    $(wildcard include/config/thumb2/kernel.h) \
   arch/arm/include/uapi/asm/ptrace.h \
     $(wildcard include/config/cpu/endian/be8.h) \
   arch/arm/include/asm/hwcap.h \
   arch/arm/include/uapi/asm/hwcap.h \
-  arch/arm/include/asm/barrier.h \
-    $(wildcard include/config/cpu/32v6k.h) \
-    $(wildcard include/config/cpu/xsc3.h) \
-    $(wildcard include/config/cpu/fa526.h) \
-    $(wildcard include/config/arch/has/barriers.h) \
-    $(wildcard include/config/arm/dma/mem/bufferable.h) \
-  arch/arm/include/asm/outercache.h \
-    $(wildcard include/config/outer/cache/sync.h) \
-    $(wildcard include/config/outer/cache.h) \
   include/asm-generic/bitops/non-atomic.h \
   include/asm-generic/bitops/fls64.h \
   include/asm-generic/bitops/sched.h \
@@ -102,18 +137,43 @@ deps_/home/yang/linux/IMX6ULL/Linux_Driver/2_lad/led.o := \
   include/asm-generic/bitops/const_hweight.h \
   include/asm-generic/bitops/lock.h \
   include/asm-generic/bitops/le.h \
-  arch/arm/include/uapi/asm/byteorder.h \
-  include/linux/byteorder/little_endian.h \
-  include/uapi/linux/byteorder/little_endian.h \
-  include/linux/swab.h \
-  include/uapi/linux/swab.h \
-  arch/arm/include/asm/swab.h \
-  arch/arm/include/uapi/asm/swab.h \
-  include/linux/byteorder/generic.h \
   include/asm-generic/bitops/ext2-atomic-setbit.h \
-  include/linux/log2.h \
-    $(wildcard include/config/arch/has/ilog2/u32.h) \
-    $(wildcard include/config/arch/has/ilog2/u64.h) \
+  include/linux/string.h \
+    $(wildcard include/config/binary/printf.h) \
+  /usr/local/arm/gcc-linaro-4.9.4-2017.01-x86_64_arm-linux-gnueabihf/lib/gcc/arm-linux-gnueabihf/4.9.4/include/stdarg.h \
+  include/uapi/linux/string.h \
+  arch/arm/include/asm/string.h \
+  include/linux/vmalloc.h \
+  include/linux/spinlock.h \
+    $(wildcard include/config/debug/spinlock.h) \
+    $(wildcard include/config/generic/lockbreak.h) \
+    $(wildcard include/config/preempt.h) \
+    $(wildcard include/config/debug/lock/alloc.h) \
+  include/linux/preempt.h \
+    $(wildcard include/config/debug/preempt.h) \
+    $(wildcard include/config/preempt/count.h) \
+    $(wildcard include/config/context/tracking.h) \
+    $(wildcard include/config/preempt/notifiers.h) \
+  include/linux/linkage.h \
+  include/linux/stringify.h \
+  include/linux/export.h \
+    $(wildcard include/config/have/underscore/symbol/prefix.h) \
+    $(wildcard include/config/modules.h) \
+    $(wildcard include/config/modversions.h) \
+    $(wildcard include/config/unused/symbols.h) \
+  arch/arm/include/asm/linkage.h \
+  include/linux/list.h \
+    $(wildcard include/config/debug/list.h) \
+  include/linux/poison.h \
+    $(wildcard include/config/illegal/pointer/value.h) \
+  include/linux/kernel.h \
+    $(wildcard include/config/preempt/voluntary.h) \
+    $(wildcard include/config/debug/atomic/sleep.h) \
+    $(wildcard include/config/prove/locking.h) \
+    $(wildcard include/config/panic/timeout.h) \
+    $(wildcard include/config/ring/buffer.h) \
+    $(wildcard include/config/tracing.h) \
+    $(wildcard include/config/ftrace/mcount/record.h) \
   include/linux/printk.h \
     $(wildcard include/config/message/loglevel/default.h) \
     $(wildcard include/config/early/printk.h) \
@@ -127,14 +187,7 @@ deps_/home/yang/linux/IMX6ULL/Linux_Driver/2_lad/led.o := \
     $(wildcard include/config/arch/has/cache/line/size.h) \
   include/uapi/linux/kernel.h \
   include/uapi/linux/sysinfo.h \
-  arch/arm/include/asm/cache.h \
-    $(wildcard include/config/arm/l1/cache/shift.h) \
-    $(wildcard include/config/aeabi.h) \
   include/linux/dynamic_debug.h \
-  include/linux/string.h \
-    $(wildcard include/config/binary/printf.h) \
-  include/uapi/linux/string.h \
-  arch/arm/include/asm/string.h \
   include/linux/errno.h \
   include/uapi/linux/errno.h \
   arch/arm/include/generated/asm/errno.h \
@@ -145,27 +198,11 @@ deps_/home/yang/linux/IMX6ULL/Linux_Driver/2_lad/led.o := \
   arch/arm/include/asm/bug.h \
     $(wildcard include/config/bug.h) \
     $(wildcard include/config/debug/bugverbose.h) \
-    $(wildcard include/config/arm/lpae.h) \
   arch/arm/include/asm/opcodes.h \
     $(wildcard include/config/cpu/endian/be32.h) \
   include/asm-generic/bug.h \
+    $(wildcard include/config/generic/bug.h) \
     $(wildcard include/config/generic/bug/relative/pointers.h) \
-  include/linux/stat.h \
-  arch/arm/include/uapi/asm/stat.h \
-  include/uapi/linux/stat.h \
-  include/linux/time.h \
-    $(wildcard include/config/arch/uses/gettimeoffset.h) \
-  include/linux/seqlock.h \
-    $(wildcard include/config/debug/lock/alloc.h) \
-  include/linux/spinlock.h \
-    $(wildcard include/config/debug/spinlock.h) \
-    $(wildcard include/config/generic/lockbreak.h) \
-    $(wildcard include/config/preempt.h) \
-  include/linux/preempt.h \
-    $(wildcard include/config/debug/preempt.h) \
-    $(wildcard include/config/preempt/count.h) \
-    $(wildcard include/config/context/tracking.h) \
-    $(wildcard include/config/preempt/notifiers.h) \
   arch/arm/include/generated/asm/preempt.h \
   include/asm-generic/preempt.h \
   include/linux/thread_info.h \
@@ -178,35 +215,6 @@ deps_/home/yang/linux/IMX6ULL/Linux_Driver/2_lad/led.o := \
   arch/arm/include/asm/fpstate.h \
     $(wildcard include/config/vfpv3.h) \
     $(wildcard include/config/iwmmxt.h) \
-  arch/arm/include/asm/page.h \
-    $(wildcard include/config/cpu/copy/v4wt.h) \
-    $(wildcard include/config/cpu/copy/v4wb.h) \
-    $(wildcard include/config/cpu/copy/feroceon.h) \
-    $(wildcard include/config/cpu/copy/fa.h) \
-    $(wildcard include/config/cpu/sa1100.h) \
-    $(wildcard include/config/cpu/xscale.h) \
-    $(wildcard include/config/cpu/copy/v6.h) \
-    $(wildcard include/config/kuser/helpers.h) \
-    $(wildcard include/config/have/arch/pfn/valid.h) \
-  arch/arm/include/asm/glue.h \
-  arch/arm/include/asm/pgtable-2level-types.h \
-  arch/arm/include/asm/memory.h \
-    $(wildcard include/config/need/mach/memory/h.h) \
-    $(wildcard include/config/page/offset.h) \
-    $(wildcard include/config/highmem.h) \
-    $(wildcard include/config/dram/base.h) \
-    $(wildcard include/config/dram/size.h) \
-    $(wildcard include/config/have/tcm.h) \
-    $(wildcard include/config/arm/patch/phys/virt.h) \
-    $(wildcard include/config/phys/offset.h) \
-    $(wildcard include/config/virt/to/bus.h) \
-  include/linux/sizes.h \
-  include/asm-generic/memory_model.h \
-    $(wildcard include/config/flatmem.h) \
-    $(wildcard include/config/discontigmem.h) \
-    $(wildcard include/config/sparsemem/vmemmap.h) \
-    $(wildcard include/config/sparsemem.h) \
-  include/asm-generic/getorder.h \
   arch/arm/include/asm/domain.h \
     $(wildcard include/config/io/36.h) \
     $(wildcard include/config/cpu/use/domains.h) \
@@ -266,6 +274,59 @@ deps_/home/yang/linux/IMX6ULL/Linux_Driver/2_lad/led.o := \
     $(wildcard include/config/cpu/v6.h) \
   include/asm-generic/cmpxchg-local.h \
   include/asm-generic/atomic-long.h \
+  include/linux/rbtree.h \
+  include/linux/cdev.h \
+  include/linux/kobject.h \
+    $(wildcard include/config/uevent/helper.h) \
+    $(wildcard include/config/debug/kobject/release.h) \
+  include/linux/sysfs.h \
+    $(wildcard include/config/sysfs.h) \
+  include/linux/kernfs.h \
+    $(wildcard include/config/kernfs.h) \
+  include/linux/err.h \
+  include/linux/mutex.h \
+    $(wildcard include/config/debug/mutexes.h) \
+    $(wildcard include/config/mutex/spin/on/owner.h) \
+  arch/arm/include/generated/asm/current.h \
+  include/asm-generic/current.h \
+  include/linux/osq_lock.h \
+  include/linux/idr.h \
+  include/linux/rcupdate.h \
+    $(wildcard include/config/tiny/rcu.h) \
+    $(wildcard include/config/tree/rcu.h) \
+    $(wildcard include/config/preempt/rcu.h) \
+    $(wildcard include/config/rcu/trace.h) \
+    $(wildcard include/config/rcu/stall/common.h) \
+    $(wildcard include/config/rcu/user/qs.h) \
+    $(wildcard include/config/rcu/nocb/cpu.h) \
+    $(wildcard include/config/tasks/rcu.h) \
+    $(wildcard include/config/debug/objects/rcu/head.h) \
+    $(wildcard include/config/hotplug/cpu.h) \
+    $(wildcard include/config/prove/rcu.h) \
+    $(wildcard include/config/rcu/boost.h) \
+    $(wildcard include/config/rcu/nocb/cpu/all.h) \
+    $(wildcard include/config/no/hz/full/sysidle.h) \
+  include/linux/threads.h \
+    $(wildcard include/config/nr/cpus.h) \
+    $(wildcard include/config/base/small.h) \
+  include/linux/cpumask.h \
+    $(wildcard include/config/cpumask/offstack.h) \
+    $(wildcard include/config/debug/per/cpu/maps.h) \
+  include/linux/bitmap.h \
+  include/linux/seqlock.h \
+  include/linux/completion.h \
+  include/linux/wait.h \
+  include/uapi/linux/wait.h \
+  include/linux/debugobjects.h \
+    $(wildcard include/config/debug/objects.h) \
+    $(wildcard include/config/debug/objects/free.h) \
+  include/linux/rcutree.h \
+  include/linux/kobject_ns.h \
+  include/linux/stat.h \
+  arch/arm/include/uapi/asm/stat.h \
+  include/uapi/linux/stat.h \
+  include/linux/time.h \
+    $(wildcard include/config/arch/uses/gettimeoffset.h) \
   include/linux/math64.h \
     $(wildcard include/config/arch/supports/int128.h) \
   include/linux/time64.h \
@@ -274,6 +335,35 @@ deps_/home/yang/linux/IMX6ULL/Linux_Driver/2_lad/led.o := \
     $(wildcard include/config/multiuser.h) \
     $(wildcard include/config/user/ns.h) \
   include/linux/highuid.h \
+  include/linux/kref.h \
+  include/linux/workqueue.h \
+    $(wildcard include/config/debug/objects/work.h) \
+    $(wildcard include/config/freezer.h) \
+  include/linux/timer.h \
+    $(wildcard include/config/timer/stats.h) \
+    $(wildcard include/config/debug/objects/timers.h) \
+  include/linux/ktime.h \
+  include/linux/jiffies.h \
+  include/linux/timex.h \
+  include/uapi/linux/timex.h \
+  include/uapi/linux/param.h \
+  arch/arm/include/generated/asm/param.h \
+  include/asm-generic/param.h \
+    $(wildcard include/config/hz.h) \
+  include/uapi/asm-generic/param.h \
+  arch/arm/include/asm/timex.h \
+  include/linux/timekeeping.h \
+  include/linux/kdev_t.h \
+  include/uapi/linux/kdev_t.h \
+  include/linux/module.h \
+    $(wildcard include/config/module/sig.h) \
+    $(wildcard include/config/kallsyms.h) \
+    $(wildcard include/config/tracepoints.h) \
+    $(wildcard include/config/event/tracing.h) \
+    $(wildcard include/config/livepatch.h) \
+    $(wildcard include/config/module/unload.h) \
+    $(wildcard include/config/constructors.h) \
+    $(wildcard include/config/debug/set/module/ronx.h) \
   include/linux/kmod.h \
   include/linux/gfp.h \
     $(wildcard include/config/zone/dma.h) \
@@ -304,18 +394,10 @@ deps_/home/yang/linux/IMX6ULL/Linux_Driver/2_lad/led.o := \
     $(wildcard include/config/nodes/span/other/nodes.h) \
     $(wildcard include/config/holes/in/zone.h) \
     $(wildcard include/config/arch/has/holes/memorymodel.h) \
-  include/linux/wait.h \
-  arch/arm/include/generated/asm/current.h \
-  include/asm-generic/current.h \
-  include/uapi/linux/wait.h \
-  include/linux/threads.h \
-    $(wildcard include/config/nr/cpus.h) \
-    $(wildcard include/config/base/small.h) \
   include/linux/numa.h \
     $(wildcard include/config/nodes/shift.h) \
   include/linux/nodemask.h \
     $(wildcard include/config/movable/node.h) \
-  include/linux/bitmap.h \
   include/linux/pageblock-flags.h \
     $(wildcard include/config/hugetlb/page.h) \
     $(wildcard include/config/hugetlb/page/size/variable.h) \
@@ -326,56 +408,12 @@ deps_/home/yang/linux/IMX6ULL/Linux_Driver/2_lad/led.o := \
     $(wildcard include/config/have/arch/nodedata/extension.h) \
     $(wildcard include/config/have/bootmem/info/node.h) \
   include/linux/notifier.h \
-  include/linux/mutex.h \
-    $(wildcard include/config/debug/mutexes.h) \
-    $(wildcard include/config/mutex/spin/on/owner.h) \
-  include/linux/osq_lock.h \
   include/linux/rwsem.h \
     $(wildcard include/config/rwsem/spin/on/owner.h) \
     $(wildcard include/config/rwsem/generic/spinlock.h) \
   arch/arm/include/generated/asm/rwsem.h \
   include/asm-generic/rwsem.h \
   include/linux/srcu.h \
-  include/linux/rcupdate.h \
-    $(wildcard include/config/tiny/rcu.h) \
-    $(wildcard include/config/tree/rcu.h) \
-    $(wildcard include/config/preempt/rcu.h) \
-    $(wildcard include/config/rcu/trace.h) \
-    $(wildcard include/config/rcu/stall/common.h) \
-    $(wildcard include/config/rcu/user/qs.h) \
-    $(wildcard include/config/rcu/nocb/cpu.h) \
-    $(wildcard include/config/tasks/rcu.h) \
-    $(wildcard include/config/debug/objects/rcu/head.h) \
-    $(wildcard include/config/hotplug/cpu.h) \
-    $(wildcard include/config/prove/rcu.h) \
-    $(wildcard include/config/rcu/boost.h) \
-    $(wildcard include/config/rcu/nocb/cpu/all.h) \
-    $(wildcard include/config/no/hz/full/sysidle.h) \
-  include/linux/cpumask.h \
-    $(wildcard include/config/cpumask/offstack.h) \
-    $(wildcard include/config/debug/per/cpu/maps.h) \
-  include/linux/completion.h \
-  include/linux/debugobjects.h \
-    $(wildcard include/config/debug/objects.h) \
-    $(wildcard include/config/debug/objects/free.h) \
-  include/linux/rcutree.h \
-  include/linux/workqueue.h \
-    $(wildcard include/config/debug/objects/work.h) \
-    $(wildcard include/config/freezer.h) \
-  include/linux/timer.h \
-    $(wildcard include/config/timer/stats.h) \
-    $(wildcard include/config/debug/objects/timers.h) \
-  include/linux/ktime.h \
-  include/linux/jiffies.h \
-  include/linux/timex.h \
-  include/uapi/linux/timex.h \
-  include/uapi/linux/param.h \
-  arch/arm/include/generated/asm/param.h \
-  include/asm-generic/param.h \
-    $(wildcard include/config/hz.h) \
-  include/uapi/asm-generic/param.h \
-  arch/arm/include/asm/timex.h \
-  include/linux/timekeeping.h \
   include/linux/topology.h \
     $(wildcard include/config/use/percpu/numa/node/id.h) \
     $(wildcard include/config/sched/smt.h) \
@@ -398,7 +436,6 @@ deps_/home/yang/linux/IMX6ULL/Linux_Driver/2_lad/led.o := \
   include/asm-generic/topology.h \
   include/linux/sysctl.h \
     $(wildcard include/config/sysctl.h) \
-  include/linux/rbtree.h \
   include/uapi/linux/sysctl.h \
   include/linux/elf.h \
   arch/arm/include/asm/elf.h \
@@ -409,16 +446,6 @@ deps_/home/yang/linux/IMX6ULL/Linux_Driver/2_lad/led.o := \
   arch/arm/include/asm/user.h \
   include/uapi/linux/elf.h \
   include/uapi/linux/elf-em.h \
-  include/linux/kobject.h \
-    $(wildcard include/config/uevent/helper.h) \
-    $(wildcard include/config/debug/kobject/release.h) \
-  include/linux/sysfs.h \
-  include/linux/kernfs.h \
-    $(wildcard include/config/kernfs.h) \
-  include/linux/err.h \
-  include/linux/idr.h \
-  include/linux/kobject_ns.h \
-  include/linux/kref.h \
   include/linux/moduleparam.h \
     $(wildcard include/config/alpha.h) \
     $(wildcard include/config/ia64.h) \
@@ -440,10 +467,7 @@ deps_/home/yang/linux/IMX6ULL/Linux_Driver/2_lad/led.o := \
     $(wildcard include/config/file/locking.h) \
     $(wildcard include/config/quota.h) \
     $(wildcard include/config/fs/dax.h) \
-    $(wildcard include/config/block.h) \
     $(wildcard include/config/migration.h) \
-  include/linux/kdev_t.h \
-  include/uapi/linux/kdev_t.h \
   include/linux/dcache.h \
   include/linux/rculist.h \
   include/linux/rculist_bl.h \
@@ -463,9 +487,6 @@ deps_/home/yang/linux/IMX6ULL/Linux_Driver/2_lad/led.o := \
   include/uapi/linux/fiemap.h \
   include/linux/migrate_mode.h \
   include/linux/percpu-rwsem.h \
-  include/linux/blk_types.h \
-    $(wildcard include/config/blk/cgroup.h) \
-    $(wildcard include/config/blk/dev/integrity.h) \
   include/uapi/linux/fs.h \
   include/uapi/linux/limits.h \
   include/uapi/linux/ioctl.h \
@@ -489,27 +510,31 @@ deps_/home/yang/linux/IMX6ULL/Linux_Driver/2_lad/led.o := \
   include/linux/uaccess.h \
   arch/arm/include/asm/uaccess.h \
     $(wildcard include/config/have/efficient/unaligned/access.h) \
-  /home/yang/linux/IMX6ULL/Linux_Driver/2_lad/led.h \
-  include/linux/io.h \
-    $(wildcard include/config/have/arch/huge/vmap.h) \
-    $(wildcard include/config/has/ioport/map.h) \
-  arch/arm/include/asm/io.h \
-    $(wildcard include/config/pci.h) \
-    $(wildcard include/config/need/mach/io/h.h) \
-    $(wildcard include/config/pcmcia/soc/common.h) \
-    $(wildcard include/config/isa.h) \
-    $(wildcard include/config/pccard.h) \
-  include/asm-generic/pci_iomap.h \
-    $(wildcard include/config/no/generic/pci/ioport/map.h) \
-    $(wildcard include/config/generic/pci/iomap.h) \
-  include/xen/xen.h \
-    $(wildcard include/config/xen.h) \
-    $(wildcard include/config/xen/dom0.h) \
-    $(wildcard include/config/xen/pvh.h) \
-  include/asm-generic/io.h \
-    $(wildcard include/config/generic/iomap.h) \
-  include/linux/vmalloc.h \
-  include/linux/cdev.h \
+  include/linux/device.h \
+    $(wildcard include/config/debug/devres.h) \
+    $(wildcard include/config/pinctrl.h) \
+    $(wildcard include/config/dma/cma.h) \
+    $(wildcard include/config/of.h) \
+    $(wildcard include/config/devtmpfs.h) \
+    $(wildcard include/config/sysfs/deprecated.h) \
+  include/linux/ioport.h \
+  include/linux/klist.h \
+  include/linux/pinctrl/devinfo.h \
+    $(wildcard include/config/pm.h) \
+  include/linux/pinctrl/consumer.h \
+  include/linux/seq_file.h \
+  include/linux/pinctrl/pinctrl-state.h \
+  include/linux/pm.h \
+    $(wildcard include/config/vt/console/sleep.h) \
+    $(wildcard include/config/pm/clk.h) \
+    $(wildcard include/config/pm/generic/domains.h) \
+  include/linux/ratelimit.h \
+  arch/arm/include/asm/device.h \
+    $(wildcard include/config/dmabounce.h) \
+    $(wildcard include/config/iommu/api.h) \
+    $(wildcard include/config/arm/dma/use/iommu.h) \
+    $(wildcard include/config/arch/omap.h) \
+  include/linux/pm_wakeup.h \
 
 /home/yang/linux/IMX6ULL/Linux_Driver/2_lad/led.o: $(deps_/home/yang/linux/IMX6ULL/Linux_Driver/2_lad/led.o)
 

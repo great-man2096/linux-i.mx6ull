@@ -3,6 +3,16 @@
 
 #include <linux/io.h>
 #include <linux/cdev.h>
+#include <linux/module.h>
+#include <linux/kernel.h>
+#include <linux/init.h>
+#include <linux/fs.h>
+#include <linux/uaccess.h> // 添加用户空间内存操作函数声明
+#include <linux/string.h>
+#include <linux/device.h>
+
+#define LED_MAJOR 200
+#define LED_NAME "led"
 
 /* 定义led寄存器物理地址 */
 #define CCM_CCGR1_BASE				(0X020C406C)
@@ -22,6 +32,8 @@ static void __iomem *GPIO1_GDIR;
 struct newchrled_dev{
     dev_t devid; // 设备号
     struct cdev cdev; // 字符设备结构体
+    struct class *class; // 类结构体
+    struct device *device; // 设备结构体
     unsigned char major; // 主设备号
     unsigned char minor; // 次设备号
 };

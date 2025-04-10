@@ -1,15 +1,8 @@
 /*
  *  chrdevbase.c - create a simple character device driver
  */
-#include <linux/module.h>
-#include <linux/kernel.h>
-#include <linux/init.h>
-#include <linux/fs.h>
-#include <linux/uaccess.h> // 添加用户空间内存操作函数声明
-#include <linux/string.h>
+
 #include "led.h"
-#define LED_MAJOR 200
-#define LED_NAME "led"
 
 char write_buf[100];               // 读写缓冲区
 u8 kerneldata = 0; // 内核数据
@@ -134,6 +127,21 @@ static int __init led_init(void)
     newchrled.cdev.owner = THIS_MODULE;
     cdev_init(&newchrled.cdev, &led_fops); // 初始化字符设备结构体变量
     cdev_add(&newchrled.cdev, newchrled.devid, 1); // 添加字符设备
+
+    newchrled.class = class_create(THIS_MODULE, LED_NAME); // 创建类
+    if (IS_ERR(newchrled.class))
+    {
+        /* 创建类失败 */
+        printk(KERN_ERR "chrdevbase: can't create class %s\n", LED_NAME);
+        return PTR_ERR(newchrled.class);
+    }
+    newchrled.device = device_create(newchrled.class, NULL, newchrled.devid, NULL, LED_NAME); // 创建设备节点
+    if (IS_ERR(newchrled.device))
+    {
+        /* 创建设备节点失败 */
+        printk(KERN_ERR "chrdevbase: can't create device %s\n", LED_NAME);
+        return PTR_ERR(newchrled.device);
+    }
     return 0;
 }
 
@@ -153,6 +161,10 @@ static void __exit led_exit(void)
     iounmap(GPIO1_GDIR);
     /* 注销字符设备驱动 */
     // unregister_chrdev(LED_MAJOR, LED_NAME);
+    
+    device_destroy(newchrled.class, newchrled.devid); // 删除设备节点
+    class_destroy(newchrled.class); // 销毁类
+
     cdev_del(&newchrled.cdev); // 删除字符设备
     unregister_chrdev_region(newchrled.devid, 1); // 注销字符设备
     
