@@ -31,12 +31,14 @@ static int led_open(struct inode *inode, struct file *filp)
 {
     /* 用户实现具体功能 */
     // printk(KERN_INFO "led_open\n");
+    filp->private_data = &newchrled; // 将设备结构体指针赋值给文件私有数据
     return 0;
 }
 
 /* 向设备写数据 */
 static ssize_t led_write(struct file *filp, const char __user *buf, size_t cnt, loff_t *offt)
 {
+    struct newchrled_dev *dev = filp->private_data;
     /* 用户实现具体功能 */
     // printk(KERN_INFO "led_write\n");
     if (copy_from_user(write_buf, buf, cnt))
@@ -107,6 +109,7 @@ static int __init led_init(void)
 	val &= ~(1 << 3);	
 	writel(val, GPIO1_DR);
 
+    newchrled.major = 0;
     /* 6、注册字符设备驱动 */
     // retvalue = register_chrdev(LED_MAJOR, LED_NAME, &led_fops);
     if (newchrled.major) {
