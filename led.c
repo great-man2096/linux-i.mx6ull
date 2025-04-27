@@ -5,7 +5,7 @@
 #include "led.h"
 
 char write_buf[100];               // 读写缓冲区
-u8 kerneldata = 0; // 内核数据
+u32 kerneldata = 0; // 内核数据
 
 /* switch led status */
 #define LED_ON 1
@@ -25,12 +25,77 @@ void led_switch(u8 sta)
 	}	
 }
 
+/* 获取设备树属性实验 */
+static int get_device_tree_property(void)
+{
+    struct device_node *node;
+    struct property *prop;
+    const char *str;
+    int ret = 0;
+    int bsize = 0;
+    u32 *brival;
+
+    node = of_find_node_by_path("/backlight");
+    if (node == NULL) {
+        printk(KERN_ERR "can't find /backlight\n");
+        return -1;
+    }
+    prop = of_find_property(node, "compatible", NULL);
+    if (prop == NULL) {
+        printk(KERN_ERR "can't find property\n");
+        return -1;
+    }
+    printk(KERN_INFO "%s\n", (char*)prop->value);
+    ret = of_property_read_string(node, "status", &str);
+    if (ret) {
+        printk(KERN_ERR "can't read property\n");
+        return -1;
+    } else {
+        printk(KERN_INFO "status = %s\n", str);
+    }
+    ret = of_property_read_u32(node, "default-brightness-level", &kerneldata);
+    if (ret) {
+        printk(KERN_ERR "can't read property\n");
+        return -1;
+    } else {
+        printk(KERN_INFO "default-brightness-level = %d\n", kerneldata);
+    }
+    bsize = of_property_count_elems_of_size(node, "brightness-levels", sizeof(u32));
+    if (bsize < 0) {
+        printk(KERN_ERR "can't read property\n");
+        return -1;
+    } else {
+        printk(KERN_INFO "brightness-levels count = %d\n", bsize);
+    }
+    /* 申请内存 */
+    brival = kmalloc(bsize * sizeof(u32), GFP_KERNEL);
+    if (brival == NULL) {
+        printk(KERN_ERR "can't alloc memory\n");
+        return -1;
+    }
+    /* 读取数组 */
+    ret = of_property_read_u32_array(node, "brightness-levels", brival, bsize);
+    if (ret) {
+        printk(KERN_ERR "can't read property\n");
+        kfree(brival);
+        return -1;
+    } else {
+        int i;
+        printk(KERN_INFO "brightness-levels = ");
+        for (i = 0; i < bsize; i++) {
+            printk(KERN_CONT "%d ", brival[i]);
+        }
+        printk(KERN_CONT "\n");
+    }
+
+    return 0;
+}
 
 /* 打开设备 */
 static int led_open(struct inode *inode, struct file *filp)
 {
     /* 用户实现具体功能 */
-    // printk(KERN_INFO "led_open\n");
+    printk(KERN_INFO "led_open\n");
     filp->private_data = &newchrled; // 将设备结构体指针赋值给文件私有数据
     return 0;
 }
@@ -72,6 +137,9 @@ static int __init led_init(void)
 {
     int retvalue = 0;
     u32 val = 0;
+
+    get_device_tree_property(); // 获取设备树属性实验
+    
     printk(KERN_INFO "led_init\n");
     /* 1、初始化LED灯，这里做地址映射 */
     IMX6U_CCM_CCGR1 = ioremap(CCM_CCGR1_BASE, 4);

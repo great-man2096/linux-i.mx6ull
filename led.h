@@ -10,6 +10,8 @@
 #include <linux/uaccess.h> // 添加用户空间内存操作函数声明
 #include <linux/string.h>
 #include <linux/device.h>
+#include <linux/of.h>
+#include <linux/slab.h>
 
 #define LED_MAJOR 200
 #define LED_NAME "led"

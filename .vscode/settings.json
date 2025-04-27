@@ -25,6 +25,8 @@
         "stat.h": "c",
         "led.h": "c",
         "fcntl.h": "c",
-        "device.h": "c"
+        "device.h": "c",
+        "slab.h": "c",
+        "uaccess.h": "c"
     }
 }
