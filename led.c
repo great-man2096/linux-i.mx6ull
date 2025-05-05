@@ -139,7 +139,7 @@ static int __init led_init(void)
     u32 val = 0;
     const char *str;
     int ret = 0;
-    u32 regdata[10] = {0};
+    // u32 regdata[10] = {0};
 
     // get_device_tree_property(); // 获取设备树属性实验
     
@@ -197,25 +197,30 @@ static int __init led_init(void)
     } else {
         printk(KERN_INFO "chrdevbase: compatible = %s\n", str);
     }
-    ret = of_property_read_u32_array(newchrled.nd, "reg", regdata, 10);
-    if (ret < 0) {
-        /* 读取设备树属性失败 */
-        printk(KERN_ERR "chrdevbase: can't read property %s\n", "reg");
-        return ret;
-    } else {
-        int i;
-        printk(KERN_INFO "chrdevbase: reg = ");
-        for (i = 0; i < 10; i++) {
-            printk(KERN_CONT "%#X ", regdata[i]);
-        }
-        printk(KERN_CONT "\n");
-    }
+    // ret = of_property_read_u32_array(newchrled.nd, "reg", regdata, 10);
+    // if (ret < 0) {
+    //     /* 读取设备树属性失败 */
+    //     printk(KERN_ERR "chrdevbase: can't read property %s\n", "reg");
+    //     return ret;
+    // } else {
+    //     int i;
+    //     printk(KERN_INFO "chrdevbase: reg = ");
+    //     for (i = 0; i < 10; i++) {
+    //         printk(KERN_CONT "%#X ", regdata[i]);
+    //     }
+    //     printk(KERN_CONT "\n");
+    // }
     /* 1、初始化LED灯，这里做地址映射 */
-    IMX6U_CCM_CCGR1 = ioremap(regdata[0], regdata[1]);
-    SW_MUX_GPIO1_IO03 = ioremap(regdata[2], regdata[3]);
-    SW_PAD_GPIO1_IO03 = ioremap(regdata[4], regdata[5]);
-    GPIO1_DR = ioremap(regdata[6], regdata[7]);
-    GPIO1_GDIR = ioremap(regdata[8], regdata[9]);
+    // IMX6U_CCM_CCGR1 = ioremap(regdata[0], regdata[1]);
+    // SW_MUX_GPIO1_IO03 = ioremap(regdata[2], regdata[3]);
+    // SW_PAD_GPIO1_IO03 = ioremap(regdata[4], regdata[5]);
+    // GPIO1_DR = ioremap(regdata[6], regdata[7]);
+    // GPIO1_GDIR = ioremap(regdata[8], regdata[9]);
+    IMX6U_CCM_CCGR1 = of_iomap(newchrled.nd, 0);
+    SW_MUX_GPIO1_IO03 = of_iomap(newchrled.nd, 1);
+    SW_PAD_GPIO1_IO03 = of_iomap(newchrled.nd, 2);
+    GPIO1_DR = of_iomap(newchrled.nd, 3);
+    GPIO1_GDIR = of_iomap(newchrled.nd,4);
     /* 2、使能GPIO1时钟 */
 	val = readl(IMX6U_CCM_CCGR1);
 	val &= ~(3 << 26);	/* 清除以前的设置 */

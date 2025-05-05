@@ -12,6 +12,7 @@
 #include <linux/device.h>
 #include <linux/of.h>
 #include <linux/slab.h>
+#include <linux/of_address.h>
 
 #define LED_MAJOR 200
 #define LED_NAME "led"

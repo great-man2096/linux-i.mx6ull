@@ -565,6 +565,8 @@ deps_/home/yang/linux/IMX6ULL/Linux_Driver/2_lad/led.o := \
   include/linux/kasan.h \
     $(wildcard include/config/kasan.h) \
     $(wildcard include/config/kasan/shadow/offset.h) \
+  include/linux/of_address.h \
+    $(wildcard include/config/of/address.h) \
 
 /home/yang/linux/IMX6ULL/Linux_Driver/2_lad/led.o: $(deps_/home/yang/linux/IMX6ULL/Linux_Driver/2_lad/led.o)
 
