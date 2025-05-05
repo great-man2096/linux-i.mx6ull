@@ -137,45 +137,13 @@ static int __init led_init(void)
 {
     int retvalue = 0;
     u32 val = 0;
+    const char *str;
+    int ret = 0;
+    u32 regdata[10] = {0};
 
-    get_device_tree_property(); // 获取设备树属性实验
+    // get_device_tree_property(); // 获取设备树属性实验
     
     printk(KERN_INFO "led_init\n");
-    /* 1、初始化LED灯，这里做地址映射 */
-    IMX6U_CCM_CCGR1 = ioremap(CCM_CCGR1_BASE, 4);
-    SW_MUX_GPIO1_IO03 = ioremap(SW_MUX_GPIO1_IO03_BASE, 4);
-    SW_PAD_GPIO1_IO03 = ioremap(SW_PAD_GPIO1_IO03_BASE, 4);
-    GPIO1_DR = ioremap(GPIO1_DR_BASE, 4);
-    GPIO1_GDIR = ioremap(GPIO1_GDIR_BASE, 4);
-    /* 2、使能GPIO1时钟 */
-	val = readl(IMX6U_CCM_CCGR1);
-	val &= ~(3 << 26);	/* 清除以前的设置 */
-	val |= (3 << 26);	/* bit26,27置1 */
-	writel(val, IMX6U_CCM_CCGR1);
-    /* 3、设置GPIO1_IO03的复用功能，将其复用为
-	 *    GPIO1_IO03，最后设置IO属性。
-	 */
-    writel(5, SW_MUX_GPIO1_IO03);
-    /*寄存器SW_PAD_GPIO1_IO03设置IO属性
-	 *bit 16:0 HYS关闭
-	 *bit [15:14]: 00 默认下拉
-     *bit [13]: 0 kepper功能
-     *bit [12]: 1 pull/keeper使能
-     *bit [11]: 0 关闭开路输出
-     *bit [7:6]: 10 速度100Mhz
-     *bit [5:3]: 110 R0/6驱动能力
-     *bit [0]: 0 低转换率
-	 */
-    writel(0x10B0, SW_PAD_GPIO1_IO03); // pull up, 100K, 50mA
-    /* 4、设置GPIO1_IO03为输出功能 */
-	val = readl(GPIO1_GDIR);
-	val &= ~(1 << 3);	/* 清除以前的设置 */
-	val |= (1 << 3);	/* 设置为输出 */
-	writel(val, GPIO1_GDIR);
-    /* 5、默认打开LED */
-	val = readl(GPIO1_DR);
-	val &= ~(1 << 3);	
-	writel(val, GPIO1_DR);
 
     newchrled.major = 0;
     /* 6、注册字符设备驱动 */
@@ -213,6 +181,72 @@ static int __init led_init(void)
         printk(KERN_ERR "chrdevbase: can't create device %s\n", LED_NAME);
         return PTR_ERR(newchrled.device);
     }
+
+    newchrled.nd = of_find_node_by_path("/alphaled");
+    if (newchrled.nd == NULL)
+    {
+        /* 设备树节点不存在 */
+        printk(KERN_ERR "chrdevbase: can't find node %s\n", "/led");
+        return -1;
+    }
+    ret = of_property_read_string(newchrled.nd, "compatible", &str);
+    if (ret) {
+        /* 读取设备树属性失败 */
+        printk(KERN_ERR "chrdevbase: can't read property %s\n", "compatible");
+        return ret;
+    } else {
+        printk(KERN_INFO "chrdevbase: compatible = %s\n", str);
+    }
+    ret = of_property_read_u32_array(newchrled.nd, "reg", regdata, 10);
+    if (ret < 0) {
+        /* 读取设备树属性失败 */
+        printk(KERN_ERR "chrdevbase: can't read property %s\n", "reg");
+        return ret;
+    } else {
+        int i;
+        printk(KERN_INFO "chrdevbase: reg = ");
+        for (i = 0; i < 10; i++) {
+            printk(KERN_CONT "%#X ", regdata[i]);
+        }
+        printk(KERN_CONT "\n");
+    }
+    /* 1、初始化LED灯，这里做地址映射 */
+    IMX6U_CCM_CCGR1 = ioremap(regdata[0], regdata[1]);
+    SW_MUX_GPIO1_IO03 = ioremap(regdata[2], regdata[3]);
+    SW_PAD_GPIO1_IO03 = ioremap(regdata[4], regdata[5]);
+    GPIO1_DR = ioremap(regdata[6], regdata[7]);
+    GPIO1_GDIR = ioremap(regdata[8], regdata[9]);
+    /* 2、使能GPIO1时钟 */
+	val = readl(IMX6U_CCM_CCGR1);
+	val &= ~(3 << 26);	/* 清除以前的设置 */
+	val |= (3 << 26);	/* bit26,27置1 */
+	writel(val, IMX6U_CCM_CCGR1);
+    /* 3、设置GPIO1_IO03的复用功能，将其复用为
+	 *    GPIO1_IO03，最后设置IO属性。
+	 */
+    writel(5, SW_MUX_GPIO1_IO03);
+    /*寄存器SW_PAD_GPIO1_IO03设置IO属性
+	 *bit 16:0 HYS关闭
+	 *bit [15:14]: 00 默认下拉
+     *bit [13]: 0 kepper功能
+     *bit [12]: 1 pull/keeper使能
+     *bit [11]: 0 关闭开路输出
+     *bit [7:6]: 10 速度100Mhz
+     *bit [5:3]: 110 R0/6驱动能力
+     *bit [0]: 0 低转换率
+	 */
+    writel(0x10B0, SW_PAD_GPIO1_IO03); // pull up, 100K, 50mA
+    /* 4、设置GPIO1_IO03为输出功能 */
+	val = readl(GPIO1_GDIR);
+	val &= ~(1 << 3);	/* 清除以前的设置 */
+	val |= (1 << 3);	/* 设置为输出 */
+	writel(val, GPIO1_GDIR);
+    /* 5、默认打开LED */
+	val = readl(GPIO1_DR);
+	val &= ~(1 << 3);	
+	writel(val, GPIO1_DR);
+
+
     return 0;
 }
 

@@ -38,6 +38,7 @@ struct newchrled_dev{
     struct device *device; // 设备结构体
     unsigned char major; // 主设备号
     unsigned char minor; // 次设备号
+    struct device_node *nd; // 设备树节点
 };
 
 static struct newchrled_dev newchrled; // LED设备结构体实例
