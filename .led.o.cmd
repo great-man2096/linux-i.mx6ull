@@ -567,6 +567,43 @@ deps_/home/yang/linux/IMX6ULL/Linux_Driver/2_lad/led.o := \
     $(wildcard include/config/kasan/shadow/offset.h) \
   include/linux/of_address.h \
     $(wildcard include/config/of/address.h) \
+  include/linux/gpio.h \
+    $(wildcard include/config/gpiolib.h) \
+    $(wildcard include/config/arch/have/custom/gpio/h.h) \
+  arch/arm/include/asm/gpio.h \
+    $(wildcard include/config/arch/nr/gpio.h) \
+  include/asm-generic/gpio.h \
+  include/linux/gpio/driver.h \
+    $(wildcard include/config/gpiolib/irqchip.h) \
+    $(wildcard include/config/of/gpio.h) \
+  include/linux/irq.h \
+    $(wildcard include/config/irq/domain/hierarchy.h) \
+    $(wildcard include/config/generic/pending/irq.h) \
+    $(wildcard include/config/hardirqs/sw/resend.h) \
+    $(wildcard include/config/generic/irq/legacy/alloc/hwirq.h) \
+    $(wildcard include/config/generic/irq/legacy.h) \
+  include/linux/irqhandler.h \
+  include/linux/irqreturn.h \
+  include/linux/irqnr.h \
+  include/uapi/linux/irqnr.h \
+  arch/arm/include/asm/irq.h \
+    $(wildcard include/config/sparse/irq.h) \
+    $(wildcard include/config/multi/irq/handler.h) \
+  arch/arm/include/generated/asm/irq_regs.h \
+  include/asm-generic/irq_regs.h \
+  include/linux/irqdesc.h \
+    $(wildcard include/config/irq/preflow/fasteoi.h) \
+    $(wildcard include/config/proc/fs.h) \
+    $(wildcard include/config/handle/domain/irq.h) \
+  arch/arm/include/asm/hw_irq.h \
+  include/linux/irqchip/chained_irq.h \
+  include/linux/irqdomain.h \
+    $(wildcard include/config/irq/domain.h) \
+  include/linux/pinctrl/pinctrl.h \
+    $(wildcard include/config/generic/pinconf.h) \
+  include/linux/gpio/consumer.h \
+    $(wildcard include/config/gpio/sysfs.h) \
+  include/linux/of_gpio.h \
 
 /home/yang/linux/IMX6ULL/Linux_Driver/2_lad/led.o: $(deps_/home/yang/linux/IMX6ULL/Linux_Driver/2_lad/led.o)
 

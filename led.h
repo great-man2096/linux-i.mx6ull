@@ -13,6 +13,8 @@
 #include <linux/of.h>
 #include <linux/slab.h>
 #include <linux/of_address.h>
+#include <linux/gpio.h>
+#include <linux/of_gpio.h>
 
 #define LED_MAJOR 200
 #define LED_NAME "led"
@@ -25,11 +27,11 @@
 #define GPIO1_GDIR_BASE				(0X0209C004)
 
 /* 映射后的寄存器虚拟地址指针 */
-static void __iomem *IMX6U_CCM_CCGR1;
-static void __iomem *SW_MUX_GPIO1_IO03;
-static void __iomem *SW_PAD_GPIO1_IO03;
-static void __iomem *GPIO1_DR;
-static void __iomem *GPIO1_GDIR;
+// static void __iomem *IMX6U_CCM_CCGR1;
+// static void __iomem *SW_MUX_GPIO1_IO03;
+// static void __iomem *SW_PAD_GPIO1_IO03;
+// static void __iomem *GPIO1_DR;
+// static void __iomem *GPIO1_GDIR;
 
 /* LED设备结构体 */
 struct newchrled_dev{
@@ -40,6 +42,7 @@ struct newchrled_dev{
     unsigned char major; // 主设备号
     unsigned char minor; // 次设备号
     struct device_node *nd; // 设备树节点
+    int led_gpio; // LED GPIO编号
 };
 
 static struct newchrled_dev newchrled; // LED设备结构体实例

@@ -27,6 +27,7 @@
         "fcntl.h": "c",
         "device.h": "c",
         "slab.h": "c",
-        "uaccess.h": "c"
+        "uaccess.h": "c",
+        "kernel.h": "c"
     }
 }

@@ -8,22 +8,24 @@ char write_buf[100];               // 读写缓冲区
 u32 kerneldata = 0; // 内核数据
 
 /* switch led status */
-#define LED_ON 1
-#define LED_OFF 0
+#define LED_ON 0
+#define LED_OFF 1
 
-void led_switch(u8 sta)
-{
-	u32 val = 0;
-	if(sta == LED_ON) {
-		val = readl(GPIO1_DR);
-		val &= ~(1 << 3);	
-		writel(val, GPIO1_DR);
-	}else if(sta == LED_OFF) {
-		val = readl(GPIO1_DR);
-		val |= (1 << 3);	
-		writel(val, GPIO1_DR);
-	}	
-}
+#if 0
+// void led_switch(u8 sta)
+// {
+// 	u32 val = 0;
+// 	if(sta == LED_ON) {
+// 		val = readl(GPIO1_DR);
+// 		val &= ~(1 << 3);	
+// 		writel(val, GPIO1_DR);
+// 	}else if(sta == LED_OFF) {
+// 		val = readl(GPIO1_DR);
+// 		val |= (1 << 3);	
+// 		writel(val, GPIO1_DR);
+// 	}	
+// }
+
 
 /* 获取设备树属性实验 */
 static int get_device_tree_property(void)
@@ -90,6 +92,7 @@ static int get_device_tree_property(void)
 
     return 0;
 }
+#endif
 
 /* 打开设备 */
 static int led_open(struct inode *inode, struct file *filp)
@@ -103,7 +106,6 @@ static int led_open(struct inode *inode, struct file *filp)
 /* 向设备写数据 */
 static ssize_t led_write(struct file *filp, const char __user *buf, size_t cnt, loff_t *offt)
 {
-    struct newchrled_dev *dev = filp->private_data;
     /* 用户实现具体功能 */
     // printk(KERN_INFO "led_write\n");
     if (copy_from_user(write_buf, buf, cnt))
@@ -113,7 +115,20 @@ static ssize_t led_write(struct file *filp, const char __user *buf, size_t cnt, 
     }
     kerneldata = write_buf[0]; // 将写缓冲区数据复制到内核数据
     printk(KERN_INFO "kerneldata = %d\n", kerneldata);
-    led_switch(kerneldata); // 根据写入的数据控制LED灯
+    if (kerneldata == 1)
+    {
+        kerneldata = LED_ON; // 如果数据为1，则点亮LED灯
+    }
+    else if (kerneldata == 0)
+    {
+        kerneldata = LED_OFF; // 如果数据为0，则熄灭LED灯
+    }
+    else
+    {
+        printk(KERN_ERR "invalid data\n");
+        return -EINVAL; // 数据无效
+    }
+    gpio_set_value(newchrled.led_gpio, kerneldata); // 根据写入的数据控制LED灯
 
     return 0;
 }
@@ -136,8 +151,8 @@ static struct file_operations led_fops = {
 static int __init led_init(void)
 {
     int retvalue = 0;
-    u32 val = 0;
-    const char *str;
+    // u32 val = 0;
+    // const char *str;
     int ret = 0;
     // u32 regdata[10] = {0};
 
@@ -182,6 +197,8 @@ static int __init led_init(void)
         return PTR_ERR(newchrled.device);
     }
 
+    
+#if 0
     newchrled.nd = of_find_node_by_path("/alphaled");
     if (newchrled.nd == NULL)
     {
@@ -250,7 +267,45 @@ static int __init led_init(void)
 	val = readl(GPIO1_DR);
 	val &= ~(1 << 3);	
 	writel(val, GPIO1_DR);
+#endif
 
+    newchrled.nd = of_find_node_by_path("/gpioled");
+    if (newchrled.nd == NULL)
+    {
+        /* 设备树节点不存在 */
+        printk(KERN_ERR "chrdevbase: can't find node %s\n", "/led");
+        return -1;
+    }
+
+    //获取LED灯GPIO编号
+    newchrled.led_gpio = of_get_named_gpio(newchrled.nd, "led-gpios", 0);
+    if (newchrled.led_gpio < 0)
+    {
+        /* 读取设备树属性失败 */
+        printk(KERN_ERR "chrdevbase: can't read property %s\n", "led-gpios");
+        return newchrled.led_gpio;
+    } else {
+        printk(KERN_INFO "chrdevbase: led-gpios = %d\n", newchrled.led_gpio);
+    }
+    //申请IO
+    ret = gpio_request(newchrled.led_gpio, "led-gpios");
+    if (ret < 0)
+    {
+        /* 申请IO失败 */
+        printk(KERN_ERR "chrdevbase: can't request gpio %d\n", newchrled.led_gpio);
+        gpio_free(newchrled.led_gpio); // 释放GPIO
+        return ret;
+    }
+    //设置IO方向输出
+    ret = gpio_direction_output(newchrled.led_gpio, 1);
+    if (ret < 0)
+    {
+        /* 设置IO方向失败 */
+        printk(KERN_ERR "chrdevbase: can't set gpio %d direction\n", newchrled.led_gpio);
+        return ret;
+    }
+    //设置IO电平低，开灯
+    gpio_set_value(newchrled.led_gpio, LED_ON);
 
     return 0;
 }
@@ -258,20 +313,22 @@ static int __init led_init(void)
 /* 驱动出口函数 */
 static void __exit led_exit(void)
 {
-    u32 val = 0;
+    // u32 val = 0;
     /* 关闭LED */
-	val = readl(GPIO1_DR);
-	val |= (1 << 3);	
-	writel(val, GPIO1_DR);
+	// val = readl(GPIO1_DR);
+	// val |= (1 << 3);	
+	// writel(val, GPIO1_DR);
+    gpio_set_value(newchrled.led_gpio, LED_OFF);
     /* 这里取消地址映射 */
-    iounmap(IMX6U_CCM_CCGR1);
-    iounmap(SW_MUX_GPIO1_IO03);
-    iounmap(SW_PAD_GPIO1_IO03);
-    iounmap(GPIO1_DR);
-    iounmap(GPIO1_GDIR);
+    // iounmap(IMX6U_CCM_CCGR1);
+    // iounmap(SW_MUX_GPIO1_IO03);
+    // iounmap(SW_PAD_GPIO1_IO03);
+    // iounmap(GPIO1_DR);
+    // iounmap(GPIO1_GDIR);
     /* 注销字符设备驱动 */
     // unregister_chrdev(LED_MAJOR, LED_NAME);
-    
+
+    gpio_free(newchrled.led_gpio); // 释放GPIO
     device_destroy(newchrled.class, newchrled.devid); // 删除设备节点
     class_destroy(newchrled.class); // 销毁类
 
